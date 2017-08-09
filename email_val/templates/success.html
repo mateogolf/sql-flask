@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email VALID!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="valid">
+        <p>
+            The email address you entered ({{tested}}) is a VALID email address! Thank You!
+        </p>
+    </div>
+    <a href="/return"></a>
+    <h2>Email Addresses Entered</h2>
+    <table>
+        {% for email in emails %}
+            <tr>
+                <td>{{email['name']}}</td>
+                <td>{{email['created_at']}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <!-- <form action="/test">
+        Email Address: <input type="text" name="email" placeholder="Insert Email Here">
+        <input type="submit" value="Submit">
+    </form> -->
+</body>
+</html>

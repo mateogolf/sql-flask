@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Validation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!--Jinja if notValid  -->
+    {% if Valid is defined %}
+        <div class="notValid">
+            Email is not valid!
+        </div>
+    
+        <form action="/tested" method="post">
+            Email Address: <input type="text" name="email" value="{{tested}}">
+            <input type="submit" value="Try Again">
+        </form>
+    {% else %}
+        <form action="/tested" method="post">
+            Email Address: <input type="text" name="email" placeholder="Insert Email Here">
+            <input type="submit" value="Submit">
+        </form>
+    {% endif %}
+</body>
+</html>
