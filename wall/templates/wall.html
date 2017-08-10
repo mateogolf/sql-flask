@@ -34,11 +34,9 @@
             <div class="comments">
             {%for comment in comments%}
                 {%if comment.message_id == message['id']%}
-                    
-                        <!--Comment Content-->
-                        <h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['updated_at'].strftime('%b %d %Y')}}</h5>
-                        <p>{{comment.comment}}</p>
-                    
+                    <!--Comment Content-->
+                    <h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['updated_at'].strftime('%b %d %Y')}}</h5>
+                    <p>{{comment.comment}}</p>
                 {% endif %}
             {% endfor %}
                 <!--Post a Comment Form for each message-->
