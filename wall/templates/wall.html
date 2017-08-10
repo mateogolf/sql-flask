@@ -9,11 +9,11 @@
     <header>
         <h1>Wall</h1>
         <div class="user">
-            <h3>{{user.first_name}}</h3>
-            <a href="/logoff/{{user.id}}">Logoff</a>
+            <h3>Welcome {{user.first_name}}</h3>
+            <a href="/logoff">Logoff</a>
         </div>
     </header>
-    <form action="/message" method="post">
+    <form id="message" action="/message" method="post">
         <label for="content">Post a Message:</label>
         <input type="text" class="content" name="content">
         <input type="submit" value="Post a Message">
@@ -31,19 +31,25 @@
             <!--Message Content-->
             <h4>{{ message['first_name'] }} {{ message['last_name'] }}  - {{message['updated_at'].strftime('%b %d %Y')}}</h4>
             <p>{{message.message}}</p>
-            {%for comment in comments%}
             <div class="comments">
-                <!--Comment Content-->
-                <h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['updated_at'].strftime('%b %d %Y')}}</h5>
-                <p>{{comment.comment}}</p>
-            </div>
+            {%for comment in comments%}
+                {%if comment.message_id == message['id']%}
+                    
+                        <!--Comment Content-->
+                        <h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['updated_at'].strftime('%b %d %Y')}}</h5>
+                        <p>{{comment.comment}}</p>
+                    
+                {% endif %}
             {% endfor %}
-            <!--Post a Comment Form for each message-->
-            <form action="/comment/{{message.id}}" method="post">
-                <label for="content">Post a Comment:</label>
-                <input type="text" class="content" name="content">
-                <input type="submit" value="Post a Comment">
-            </form>
+                <!--Post a Comment Form for each message-->
+                <form class="wall" action="/comment/{{message.id}}" method="post">
+                    <label for="content">Post a Comment:</label>
+                    <input type="text" class="content" name="content">
+                    <input type="submit" value="Post a Comment">
+                </form>
+            </div>
+            
+            
         </div>
         {% endfor %}
     </article>

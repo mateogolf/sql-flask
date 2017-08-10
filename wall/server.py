@@ -170,8 +170,8 @@ def comment(message_id):
         return redirect('/wall')
 
 
-@app.route('/logout')
-def message():
-    session['user_id'] = 0
+@app.route('/logoff')
+def logout():
+    session.clear()
     return redirect('/')
 app.run(debug=True)
