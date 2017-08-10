@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>Friends</title>
+</head>
+<body>
+    <h1>Friends:</h1>
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Friend Since</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <!-- with all the data we can then construct a more structured output -->
+            {% if one_friend is undefined %}
+                {% for friend in all_friends: %}
+                <tr>
+                    <td>{{ friend['first_name'] }} {{ friend['last_name'] }}</td>
+                    <td>{{ friend['age'] }}</td>
+                    <td>{{ friend['created_at'].strftime('%b %d') }}</td>
+                    <td>{{ friend['created_at'].strftime('%Y') }}</td>
+                    <td><a href="/friends/{{friend['id']}}">Show</a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>{{ one_friend['first_name'] }} {{ one_friend['last_name'] }}</td>
+                    <td>{{ one_friend['age'] }}</td>
+                    <td>{{ one_friend['created_at'].strftime('%b %d') }}</td>
+                    <td>{{ one_friend['created_at'].strftime('%Y') }}</td>
+                    <td><a href="/edit_friend/{{one_friend['id']}}">Update</a></td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if one_friend is undefined %}
+    <h2>Add a Friend</h2>
+    <form action='/friends' method='POST'>
+        <label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
+        <label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
+        <label for="age">Age:<input type="text" name="age" id="age"></label>
+        <input type="submit" value="Add">
+    </form>
+    {% elif edit is defined %}
+    <h2>Edit Entry above</h2>
+    <form action="/update_friend/{{one_friend['id']}}" method='POST'>
+        <label for="first_name">First Name:<input type="text" name="first_name" id="first_name" value="{{one_friend['first_name']}}"></label>
+        <label for="last_name">Last Name:<input type="text" name="last_name" id="last_name" value="{{one_friend['last_name']}}"></label>
+        <label for="age">Age:<input type="text" name="age" id="age" value="{{one_friend['age']}}"></label>
+        <input type="submit" value="Save">
+    </form>
+    {% endif %}
+</body>
+</html>
