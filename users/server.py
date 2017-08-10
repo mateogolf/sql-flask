@@ -1,7 +1,11 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from mysqlconnection import MySQLConnector
+import re
 app = Flask(__name__)
-mysql = MySQLConnector(app,'friendsdb')
+mysql = MySQLConnector(app, 'friendsdb')
+EMAIL_REGEX = re.compile(r'"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$"')
+app.secret_key = "ITsASecretkEy"
+
 @app.route('/')
 def index():
     query = "SELECT * from friends"
@@ -10,14 +14,14 @@ def index():
 
 @app.route('/friends', methods=['POST'])
 def create():
-    query = "INSERT INTO friends (first_name, last_name, age, created_at, updated_at) VALUES (:first_name, :last_name, :age, NOW(), NOW())"
+    query = "INSERT INTO friends (first_name, last_name, email, created_at, updated_at) VALUES (:first_name, :last_name, :email, NOW(), NOW())"
     data = {
         'first_name': request.form['first_name'],
         'last_name':  request.form['last_name'],
-        'age': request.form['age']
+        'email': request.form['email']
     }
-    print data['age']
-    print request.form['age']
+    print data['email']
+    print request.form['email']
     mysql.query_db(query, data)
     return redirect('/')
 
@@ -43,11 +47,11 @@ def edit(friend_id):
 
 @app.route('/update_friend/<friend_id>', methods=['POST'])
 def update(friend_id):
-    query = "UPDATE friends SET first_name = :first_name, last_name = :last_name, age = :age WHERE id = :id"
+    query = "UPDATE friends SET first_name = :first_name, last_name = :last_name, email = :email WHERE id = :id"
     data = {
         'first_name': request.form['first_name'],
         'last_name':  request.form['last_name'],
-        'age': request.form['age'],
+        'email': request.form['email'],
         'id': friend_id
     }
     mysql.query_db(query, data)
