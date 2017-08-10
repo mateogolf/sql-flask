@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login/Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+</head>
+<body>
+    <div id="wrapper">
+        <form action="/login" class="login" method="post">
+            <h2>Login</h2>
+            {% if bigLoginError is defined %}
+                <p style="color:red">{{bigLoginError}}</p>
+            {% endif %}
+            <table>
+                <tr>
+                    <td><input type="text" name="lemail" placeholder="Email"></td>
+                    <td>
+                        {% if lemailLogin is defined %}
+                        <p style="color:red">{{lemailLogin}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="password" name="lpassword" placeholder="password"></td>
+                    <td>
+                        {% if lpasswordLogin is defined %}
+                        <p style="color:red">{{lpasswordLogin}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Login">
+        </form>
+        <form action="/register" class="registration" method="post">
+            <h2>Register New User</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <h4>New User not registered because:</h4>
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <table>
+                <tr> <!-- First Name -->
+                    <td><label for="first_name">First Name:</label></td>
+                    <td></td>
+                    <td><input type="text" id="first_name" name="first_name"></td>
+                </tr>
+                <tr> <!-- Last Name -->
+                    <td><label for="last_name">Last Name: </label></td>
+                    <td></td>
+                    <td><input type="text" id="last_name" name="last_name"></td>
+                </tr>
+                <tr><!-- Email -->
+                    <td><label for="email">Email: </label></td>
+                    <td></td>
+                    <td><input type="text" id="email" name="email"></td>
+                </tr>
+                <tr> <!-- Password -->
+                    <td><label for="password">Password: </label></td>
+                    <td></td>
+                    <td><input type="password" id="password" name="password"></td>
+                </tr>
+                <tr> <!-- PW Confirm -->
+                    <td><label for="pw_confirm">Password Confirmation: </label></td>
+                    <td></td>
+                    <td><input type="password" id="pw_confirm" name="pw_confirm"></td>
+                </tr>
+            </table>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+</html>

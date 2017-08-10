@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{user.first_name}}'s Wall</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Wall</h1>
+        <div class="user">
+            <h3>{{user.first_name}}</h3>
+            <a href="/logoff/{{user.id}}">Logoff</a>
+        </div>
+    </header>
+    <form action="/message" method="post">
+        <label for="content">Post a Message:</label>
+        <input type="text" class="content" name="content">
+        <input type="submit" value="Post a Message">
+    </form>
+    <article>
+        {% with flashmessages = get_flashed_messages() %}
+            {% if flashmessages %}
+                {% for fmessage in flashmessages %}
+                    <p style="color:red">{{fmessage}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {%for message in messages%}
+        <div class="messages">
+            <!--Message Content-->
+            <h4>{{ message['first_name'] }} {{ message['last_name'] }}  - {{message['updated_at'].strftime('%b %d %Y')}}</h4>
+            <p>{{message.message}}</p>
+            {%for comment in comments%}
+            <div class="comments">
+                <!--Comment Content-->
+                <h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['updated_at'].strftime('%b %d %Y')}}</h5>
+                <p>{{comment.comment}}</p>
+            </div>
+            {% endfor %}
+            <!--Post a Comment Form for each message-->
+            <form action="/comment/{{message.id}}" method="post">
+                <label for="content">Post a Comment:</label>
+                <input type="text" class="content" name="content">
+                <input type="submit" value="Post a Comment">
+            </form>
+        </div>
+        {% endfor %}
+    </article>
+</body>
+</html>
