@@ -12,7 +12,12 @@ def index():
     friends = mysql.query_db(query)
     return render_template('index.html', all_friends=friends)
 
-@app.route('/friends', methods=['POST'])
+
+@app.route('/users/new')
+def new():
+    return render_template('edit.html')
+
+@app.route('/users/create', methods=['POST'])
 def create():
     query = "INSERT INTO friends (first_name, last_name, email, created_at, updated_at) VALUES (:first_name, :last_name, :email, NOW(), NOW())"
     data = {
@@ -25,7 +30,7 @@ def create():
     mysql.query_db(query, data)
     return redirect('/')
 
-@app.route('/friends/<friend_id>')
+@app.route('/users/<friend_id>')
 def show(friend_id):
     query = "SELECT * FROM friends WHERE id = :specific_id"
     data = {'specific_id': friend_id}
@@ -35,7 +40,7 @@ def show(friend_id):
     return render_template('index.html', one_friend=friends[0])
 
 
-@app.route('/edit_friend/<friend_id>')
+@app.route('/users/<friend_id>/edit')
 def edit(friend_id):
     query = "SELECT * from friends WHERE id = :id"
     data = {
@@ -45,7 +50,7 @@ def edit(friend_id):
     return render_template('index.html', one_friend=friends[0],edit=True)
 
 
-@app.route('/update_friend/<friend_id>', methods=['POST'])
+@app.route("/users/<friend_id>", methods=['POST'])
 def update(friend_id):
     query = "UPDATE friends SET first_name = :first_name, last_name = :last_name, email = :email WHERE id = :id"
     data = {
@@ -60,11 +65,15 @@ def update(friend_id):
     friends = mysql.query_db(query, data)
     return render_template('index.html', one_friend=friends[0])
 
-@app.route('/remove_friend/<friend_id>', methods=['POST'])
-def delete(friend_id):
+
+@app.route('/users/<friend_id>/destroy')
+def destroy(friend_id):
     query = "DELETE FROM friends WHERE id = :id"
     data = {'id': friend_id}
-    mysql.query_db(query, data)
+    if mysql.query_db(query, data):
+        print "it worked"
+    else:
+        print "IT DIDN'T Work"
     return redirect('/')
 
 app.run(debug=True)

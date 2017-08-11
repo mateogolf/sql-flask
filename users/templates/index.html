@@ -24,9 +24,9 @@
                             <td>{{ friend['email'] }}</td>
                             <td>{{ friend['created_at'].strftime('%b %d %Y') }}</td>
                             <td>
-                                <a href="/friends/{{friend['id']}}">Show</a>
-                                <a href="/edit_friend/{{friend['id']}}">Update</a>
-                                <a href="/remove_friend/{{friend['id']}}">Delete</a>
+                                <a href="/users/{{friend['id']}}">Show</a>
+                                <a href="/users/{{friend['id']}}/edit">Update</a>
+                                <a href="/users/{{friend['id']}}/destroy">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -37,24 +37,25 @@
                         <td>{{ one_friend['email'] }}</td>
                         <td>{{ one_friend['created_at'].strftime('%b %d %Y') }}</td>
                         <td>
-                            <a href="/edit_friend/{{one_friend['id']}}">Update</a>
-                            <a href="/remove_friend/{{one_friend['id']}}">Delete</a>
+                            <a href="/users/{{one_friend['id']}}/edit">Update</a>
+                            <a href="/users/{{one_friend['id']}}/destroy">Delete</a>
                         </td>
                     </tr>
                 {% endif %}
             </tbody>
         </table>
+        <h3><a href="/users/new">Add a new User</a></h3>
         {% if one_friend is undefined %}
             <h2>Add a Friend</h2>
-            <form action='/friends' method='POST'>
+            <form action='/users/create' method='POST'>
                 <label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
                 <label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
                 <label for="email">Email:<input type="text" name="email" id="email"></label>
                 <input type="submit" value="Add">
             </form>
-            {% elif edit is defined %}
+        {% elif edit is defined %}
             <h2>Edit Entry above</h2>
-            <form action="/update_friend/{{one_friend['id']}}" method='POST'>
+            <form action="/users/{{one_friend['id']}}" method='POST'>
                 <label for="first_name">First Name:<input type="text" name="first_name" id="first_name" value="{{one_friend['first_name']}}"></label>
                 <label for="last_name">Last Name:<input type="text" name="last_name" id="last_name" value="{{one_friend['last_name']}}"></label>
                 <label for="email">Email:<input type="text" name="email" id="email" value="{{one_friend['email']}}"></label>

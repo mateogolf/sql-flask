@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <title>Users</title>
+    </head>
+    <body>
+        <h1>Users {{ one_friend['id'] }}</h1>
+        <p>Full Name: {{ one_friend['first_name'] }} {{ one_friend['last_name'] }}</p>
+        <p>Email: {{ one_friend['email'] }}</p>
+        <p>Created at: {{ one_friend['created_at'].strftime('%b %d %Y') }}</p>
+        <div>
+            <a href="/users/{{one_friend['id']}}/edit">Update</a> | 
+            <a href="/users/{{one_friend['id']}}/destroy">Delete</a>
+        </div>
+    </body>
+</html>
